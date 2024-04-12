@@ -1,68 +1,38 @@
-import * as readline from 'readline';
+#! /usr/bin/env node 
 
-class Calculator {
-    add(a: number, b: number): number {
-        return a + b;
-    }
+import inquirer from "inquirer";
 
-    subtract(a: number, b: number): number {
-        return a - b;
-    }
+const input = await inquirer.prompt([
+  { message: "Enter first number: ", type: "number", name: "first" },
+  { message: "Enter second number: ", type: "number", name: "second" },
+  {
+    message: "Select any operation of choice: ",
+    type: "list",
+    name: "choice",
+    choices: ["Add", "Subtract", "Multiply", "Divide"],
+  },
+]);
 
-    multiply(a: number, b: number): number {
-        return a * b;
-    }
+if (input.choice === "Add") {
+  let result = input.first + input.second;
 
-    divide(a: number, b: number): number {
-        if (b === 0) {
-            console.log("Cannot divide by zero.");
-            return 0;
-        }
-        return a / b;
-    }
+  console.log(`Result of Addition: ${result}`);
 }
 
-const calculator = new Calculator();
+if (input.choice === "Subtract") {
+  let result = input.first - input.second;
 
-function operations() {
-    const rl = readline.createInterface({
-        input: process.stdin,
-        output: process.stdout
-    });
-
-    rl.question("Enter first number: ", (num1) => {
-        rl.question("Enter second number: ", (num2) => {
-            const firstNumber = parseFloat(num1);
-            const secondNumber = parseFloat(num2);
-            console.log("1- Add, 2 - Subtract, 3 - Multiply, 4 - Divide, 5 - Exit");
-            rl.question("Select the operation you want to perform: ", (choice) => {
-                let result: number;
-                switch (parseInt(choice)) {
-                    case 1:
-                        result = calculator.add(firstNumber, secondNumber);
-                        break;
-                    case 2:
-                        result = calculator.subtract(firstNumber, secondNumber);
-                        break;
-                    case 3:
-                        result = calculator.multiply(firstNumber, secondNumber);
-                        break;
-                    case 4:
-                        result = calculator.divide(firstNumber, secondNumber);
-                        break;
-                    case 5:
-                        console.log("Exiting calculator...");
-                        rl.close();
-                        return;
-                    default:
-                        console.log("Invalid Choice. Please try again.");
-                        break;
-                }
-                console.log(`Result: ${result}`);
-                operations(); // Call operations again for continuous calculations
-            });
-        });
-    });
+  console.log(`Result of Subtraction: ${result}`);
 }
 
-operations();
+if (input.choice === "Multiply") {
+  let result = input.first * input.second;
+
+  console.log(`Result of Multiplication: ${result}`);
+}
+
+if (input.choice === "Divide") {
+  let result = input.first / input.second;
+
+  console.log(`Result of Division: ${result}`);
+}
